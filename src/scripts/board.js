@@ -53,12 +53,13 @@ function fillAnswerField(text) {
  */
 function setPoints(team, points) {
     const teamPointContainer = document.querySelector(`.${team}-team .team-points`);
-
     if (!teamPointContainer) {
         throw new Error('The HTML for the team you provided does not exist, you probably have a typo in a team name');
     }
-
-    document.querySelector(`.${team}-team .team-points`).innerHTML = points.toString();
+    const currentPointsString = teamPointContainer.innerHTML;
+    const currentPointsNumb = parseInt(currentPointsString);
+    const sum = currentPointsNumb + points;
+    document.querySelector(`.${team}-team .team-points`).innerHTML = sum.toString();
 }
 
 /**
@@ -115,6 +116,12 @@ function clearBoard() {
  */
 function finishGame(teamName) {
     const winner = document.querySelector('.winner');
+    // if (teamName === "blue"){
+    //     teamName = "Damy niepodleglosci";
+    // }
+    // if (teamName === "red"){
+    //     teamName = "Kowalscy";
+    // }
     winner.innerHTML = `Wygrala druzyna ${teamName}`;
     winner.style.display = 'block';
 }

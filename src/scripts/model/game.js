@@ -32,7 +32,6 @@ export default class Game {
     handlePlayerAnswer(playerAnswer) {
         const result = this.resolvePlayerAnswer(playerAnswer);
         const currentTeam = this.getCurrentTeam();
-
         switch(result.status) { 
             case true: { 
                this.round.setBoardAnswer(result.answer, this);
@@ -51,12 +50,15 @@ export default class Game {
      * @param {string} playerAnswer 
      */
     resolvePlayerAnswer(playerAnswer) {
-
         const answer = this.round.getQuestion().getAnswers().find(answer => {
             return answer.ans.toLowerCase() === board.removeDiacritics(playerAnswer);
         });
 
         return (answer !== undefined) ? { answer, status: true} : { answer: null, status: false};
+    }
+    startGame() {
+        const audio = new Audio("/public/assets/sounds/intro-familiada.mp3");
+        audio.play();
     }
 
     getQuestionsStore() {
@@ -73,6 +75,12 @@ export default class Game {
 
     setCurrentTeam(teamName) {
         this.currentTeam = teamName;
+        const currTeamContainer = document.querySelector('.current-team');
+        if (currTeamContainer){
+            if (teamName === "blue") teamName = "Damy niepodleglosci";
+            if (teamName === "red") teamName = "Kowalscy";
+            currTeamContainer.innerHTML = teamName;
+        }
     }
 
     getCurrentTeam() {

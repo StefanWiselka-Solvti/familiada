@@ -5,6 +5,7 @@ export default class QuestionStore {
 
     constructor(questions) {
         this.questions = this.parseQuestions(questions);
+        this.current_round = 0;
     }
 
     parseQuestions(questions) {
@@ -20,7 +21,7 @@ export default class QuestionStore {
     }
 
     getRandomQuestion() {
-        return this.questions[this.getRandomQuestionId()];
+        return this.questions[this.current_round];
     }
     
     getRandomQuestionId() {

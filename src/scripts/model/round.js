@@ -22,30 +22,36 @@ export default class Round {
      * @param {Game} game
      */
     setBoardAnswer(answer, game) {
-        board.setAnswer(answer.lp, answer.ans, answer.points);
-        this.right++;
-        this.points += answer.points;
-        if (this.checkFinish() || this.status === ROUND_STATUS.STOLEN) this.finishRound(game);
-
+        const audio = new Audio("/public/assets/sounds/good.mp3");
+        audio.play();
+        setTimeout(() => {
+            board.setAnswer(answer.lp, answer.ans, answer.points);
+            this.right++;
+            this.points += answer.points;
+        }, 200);        
     }
     /**
      * @param {Team} team 
      * @param {Game} game
      */
     setBoardError(team, game) {
-        team.addError()
-        board.setErrors(team.getName(), team.getErrors());
+        const audio = new Audio("/public/assets/sounds/bad.mp3");
+        audio.play();
+        setTimeout(() => {
+            team.addError()
+            board.setErrors(team.getName(), team.getErrors());
+            
+            if (this.status === ROUND_STATUS.STOLEN) {
+                game.switchCurrentTeam();
+                game.getCurrentTeam().addPoints(this.points);
+                // this.startNewRound(game);
+            }
 
-        if (this.status === ROUND_STATUS.STOLEN) {
-            game.switchCurrentTeam();
-            game.getCurrentTeam().addPoints(this.points);
-            this.startNewRound(game);
-        }
-
-        if (team.getErrors() === 3) {
-            game.switchCurrentTeam();
-            this.status = ROUND_STATUS.STOLEN;
-        }    
+            if (team.getErrors() === 3) {
+                game.switchCurrentTeam();
+                this.status = ROUND_STATUS.STOLEN;
+            } 
+        }, 300);  
     }
 
     
@@ -58,18 +64,47 @@ export default class Round {
      * @param {Game} game 
      */
     finishRound(game) {
-
-        if(game.getRoundCount() === 4) this.points *= 2;
-        if(game.getRoundCount() === 5) this.points *= 3;
-
+        const audio = new Audio("/public/assets/sounds/next-round.mp3");
+        audio.play();
+        if(game.getRoundCount() === 5) this.points *= 2;
         game.getCurrentTeam().addPoints(this.points);
         board.setPoints(game.getCurrentTeam().getName(), this.points);
+        
+        // if (game.getCurrentTeam().getPoints() >= 400) {
+        //     this.finishGame(game.getCurrentTeam().getName());
+        //     return;
+        // }
+        const current_round = game.questionsStore.current_round;
+        if (current_round >= 4){
+            let maxPoints = -Infinity;
+            let topTeamName = "";
+            const teams = document.querySelectorAll(".team");
+            teams.forEach(team => {
+                const pointsEl = team.querySelector(".team-points");
+                const nameEl = team.querySelector(".name");
 
-        if (game.getCurrentTeam().getPoints() >= 400) {
-            this.finishGame(game.getCurrentTeam().getName());
-            return;
+                if (pointsEl && nameEl) {
+                    const points = parseInt(pointsEl.textContent.trim(), 10);
+                    if (points > maxPoints) {
+                        maxPoints = points;
+                        topTeamName = nameEl.textContent.trim();
+                    }
+                }
+            });
+            this.finishGame(topTeamName);
+            return
         }
-        this.startNewRound(game);   
+        this.goToNextRound(game, current_round);
+        this.startNewRound(game);
+    }
+
+    goToNextRound(game, current_round) {
+        
+        game.questionsStore.current_round = current_round + 1;
+        const currRoundContainer = document.querySelector('.round-nr');
+        if (currRoundContainer){
+            currRoundContainer.innerHTML = `${1 + current_round + 1}`;
+        }
     }
 
     /**

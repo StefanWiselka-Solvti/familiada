@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-2 text-center blue-team team">
-            <h4 class="name">Phpowcy</h4>
+            <h4 class="name">Damy Niepodleglosci</h4>
             <div class="fail">X</div>
             <div class="fail">X</div>
             <div class="fail">X</div>
@@ -20,7 +20,7 @@
         </div>
         <div class="col-lg-8 text-center">
             <h1>FAMILIADA</h1>
-            <h3 class="question">Wyraz ktory nie ma liczby pojedynczej?</h3>
+            <h3 style="display: none" class="question">Wyraz ktory nie ma liczby pojedynczej?</h3>
             <ul class="answers">
                 <li data-answer-num="1">
                     <span class="number">1.</span>
@@ -53,19 +53,57 @@
                     <span class="points">8</span>
                 </li>
             </ul>
-            <div class="recordPanel">
-                <button id="recordButton" class='notRec'></button>
-                <h4 class="record">Nagraj!</h4>
+            <div class="recordPanel" >
+                <button style="display: none;" id="recordButton" class='notRec'></button>
+                <h4>Runda <span class="round-nr">1</span></h4>
+                <div style="font-size: 10px;">odpowiada</div>
+                <div class="current-team"></div>
             </div>
             <h3 class="winner"></h3>
         </div>
         <div class="col-lg-2 text-center red-team team">
-            <h4 class="name">JavaScriptowcy</h4>
+            <h4 class="name">Kowalscy</h4>
             <div class="fail">X</div>
             <div class="fail">X</div>
             <div class="fail">X</div>
             <h3>SUMA: <span class="team-points">0</span></h3>
         </div>
+        <div id="correct_answers_panel">
+            <div>
+                <button class="correct_answer" data-correct-answer-num="switch" id="button_switch">T</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="0" id="button_0">1</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="1" id="button_2">2</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="2" id="button_3">3</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="3" id="button_4">4</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="4" id="button_5">5</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="5" id="button_6">6</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="wrong" id="button_x" >x</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="wrongsound" id="button_xs" >xs</button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="next" id="button_next" >></button>
+            </div>
+            <div>
+                <button class="correct_answer" data-correct-answer-num="start" id="button_start" >S</button>
+            </div>
+        </div>
+        
     </div>
 </div>
 
